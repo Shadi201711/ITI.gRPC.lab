@@ -5,7 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddGrpc();
-builder.Services.AddGrpcReflection(); // Add this line to enable server reflection
+builder.Services.AddGrpcReflection(); 
 
 var app = builder.Build();
 
@@ -18,10 +18,10 @@ app.MapGrpcService<InventoryService>();
 if (app.Environment.IsDevelopment())
 {
     app.UseDeveloperExceptionPage();
-   // app.UseWebAssemblyDebugging();
+ 
 
 }
 
-app.MapGrpcReflectionService(); // Add this line to enable server reflection
+app.MapGrpcReflectionService(); 
 
 app.Run();

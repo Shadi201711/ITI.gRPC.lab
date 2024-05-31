@@ -18,7 +18,7 @@ Console.WriteLine($"Client: Received response. Product exists: {productResponse.
 
 if (productResponse.Exists)
 {
-    // Product exists, update it
+    
     Console.WriteLine($"Client: Product with ID {defaultProductId} exists. Please provide updated product details:");
 
     Console.WriteLine("Enter product name:");
@@ -48,7 +48,7 @@ if (productResponse.Exists)
 }
 else
 {
-    // Product does not exist, create a new one
+   
     Console.WriteLine($"Client: Product with ID {defaultProductId} does not exist. Please provide product details to create:");
 
     Console.WriteLine("Enter product name:");
