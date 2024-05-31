@@ -1,0 +1,28 @@
+syntax = "proto3";
+
+option csharp_namespace = "ITI.gRPC.lab.client.Protos";
+
+package Inventory;
+
+service Inventory {
+  rpc GetProductById(ProductRequest) returns (ProductResponse);
+  rpc AddProduct(Product) returns (ProductResponse);
+  rpc UpdateProduct(Product) returns (ProductResponse);
+}
+
+message ProductRequest {
+  string ProductId = 1;
+}
+
+message ProductResponse {
+  bool exists = 1;
+  Product product = 2;
+}
+
+message Product {
+  string ProductId = 1;
+  string ProductName = 2;
+  string ProductDescription = 3;
+  double ProductPrice = 4;
+  int32 ProductQuantity = 5;
+}
