@@ -1,6 +1,7 @@
 syntax = "proto3";
 
 option csharp_namespace = "ITI.gRPC.lab.server.Protos";
+
 import "google/protobuf/timestamp.proto";
 import "google/protobuf/empty.proto";
 

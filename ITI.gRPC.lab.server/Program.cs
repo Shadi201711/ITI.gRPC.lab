@@ -1,27 +1,37 @@
+using ITI.gRPC.lab.server.Handler;
 using ITI.gRPC.lab.server.Services;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.DependencyInjection;
+using ITI.gRPC.lab.server;
+using ITI.gRPC.lab.server.Handler;
+using ITI.gRPC.lab.server.Services;
+using Microsoft.AspNetCore.Authentication;
 
-var builder = WebApplication.CreateBuilder(args);
-
-builder.Services.AddGrpc();
-builder.Services.AddGrpcReflection(); 
-
-var app = builder.Build();
-
-app.UseHttpsRedirection();
-app.UseRouting();
-app.UseGrpcWeb();
-
-app.MapGrpcService<InventoryService>();
-
-if (app.Environment.IsDevelopment())
+namespace ITI.gRPC.lab.server
 {
-    app.UseDeveloperExceptionPage();
- 
+    public class Program
+    {
+        const string ApiKeySchemeName = "X-Api-Key";
+        public static void Main(string[] args)
+        {
+            var builder = WebApplication.CreateBuilder(args);
 
+            builder.Services.AddHttpContextAccessor();
+            builder.Services.AddGrpc();
+            builder.Services.AddScoped<IApiKeyAuthenticationService, ApiKeyAuthenticationServicecs>();
+            builder.Services.AddAuthentication(o =>
+            {
+                o.DefaultAuthenticateScheme = Consts.ApiKeySchemeName;
+            }).AddScheme<AuthenticationSchemeOptions, ApiKeyAuthonticationHandler>(Consts.ApiKeySchemeName, configureOptions => { });
+            builder.Services.AddAuthorization();
+
+            var app = builder.Build();
+
+
+            app.UseHttpsRedirection();
+            app.UseAuthentication();
+            app.UseAuthorization();
+
+            app.MapGrpcService<InventoryService>();
+            app.Run();
+        }
+    }
 }
-
-app.MapGrpcReflectionService(); 
-
-app.Run();
